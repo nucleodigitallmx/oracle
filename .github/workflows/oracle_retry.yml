@@ -7,19 +7,10 @@ jobs:
   solicitar-vps:
     runs-on: ubuntu-latest
     steps:
-    - name: Código del repositorio
+    - name: Codigo del repositorio
       uses: actions/checkout@v4
 
-   - name: Ejecutar Reintentos Infinitos
-      env:
-        COMPARTMENT_ID: ${{ secrets.OCI_COMPARTMENT_OCID }}
-      run: |
-        # 1. Forzar la ruta del binario en el PATH de este paso
-        export PATH=$PATH:/home/runner/bin
-        
-        # 2. Dar permisos y correr el script
-        chmod +x ./crear_instancia.sh
-        ./crear_instancia.sh
+    - name: Instalar y Configurar OCI CLI de forma Nativa
       env:
         OCI_USER: ${{ secrets.OCI_USER_OCID }}
         OCI_TENANCY: ${{ secrets.OCI_TENANCY_OCID }}
@@ -27,21 +18,13 @@ jobs:
         OCI_REGION: "mx-monterrey-1"
         OCI_KEY_TEXT: ${{ secrets.OCI_API_KEY }}
       run: |
-        # 1. Instalar el CLI oficial de Oracle
         bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/services/vcn/extensions/install.sh)" -- --accept-all-defaults
-        
-        # 2. Agregar el CLI al PATH del sistema
         echo "/home/runner/bin" >> $GITHUB_PATH
         export PATH=$PATH:/home/runner/bin
-        
-        # 3. Crear el directorio de configuración obligatoria de Oracle
         mkdir -p ~/.oci
-        
-        # 4. Crear el archivo de la llave privada .pem bien formateado
         echo "$OCI_KEY_TEXT" > ~/.oci/oci_api_key.pem
         chmod 600 ~/.oci/oci_api_key.pem
         
-        # 5. Generar el archivo de configuración config que lee Oracle
         cat << EOF > ~/.oci/config
         [DEFAULT]
         user=$OCI_USER
@@ -57,7 +40,6 @@ jobs:
       env:
         COMPARTMENT_ID: ${{ secrets.OCI_COMPARTMENT_OCID }}
       run: |
-        # Asegurar que encuentre el comando recién instalado en este paso
         export PATH=$PATH:/home/runner/bin
         chmod +x ./crear_instancia.sh
         ./crear_instancia.sh
