@@ -12,7 +12,7 @@
             echo "Error: OCI CLI no se encuentra en el PATH actual."
             echo "PATH actual: $PATH"
         fi
-
+        
         echo "=== Limpiando y ejecutando el script ==="
         sed -i 's/\r$//' ./crear_instancia.sh
         chmod +x ./crear_instancia.sh
