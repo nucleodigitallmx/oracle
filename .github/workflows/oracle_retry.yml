@@ -11,7 +11,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Configurar OCI CLI
-      uses: oracle-actions/setup-oci@v1.2.1
+      uses: collections/setup-oci@v1
       with:
         user: ${{ secrets.OCI_USER_OCID }}
         fingerprint: ${{ secrets.OCI_FINGERPRINT }}
