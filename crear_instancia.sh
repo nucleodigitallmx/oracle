@@ -7,7 +7,7 @@ while true; do
   
   # Comando OCI CLI para lanzar la instancia
   # Reemplaza los OCIDs con los valores exactos de tu red, compartimento e imagen
-  LAUNCH_OP=$(oci compute instance launch \
+  LAUNCH_OP=(/home/runner/bin/oci compute instance launch \
     --availability-domain "pXbI:MX-MONTERREY-1-AD-1" \
     --compartment-id "${COMPARTMENT_ID}" \
     --shape "VM.Standard.A1.Flex" \
