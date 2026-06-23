@@ -1,0 +1,27 @@
+name: Forzar Creacion Instancia Oracle
+
+on:
+  workflow_dispatch: # Permite activarlo manualmente desde la pestaña Actions
+
+jobs:
+  solicitar-vps:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Código del repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar OCI CLI
+      uses: oracle-actions/setup-oci@v1.2.1
+      with:
+        user: ${{ secrets.OCI_USER_OCID }}
+        fingerprint: ${{ secrets.OCI_FINGERPRINT }}
+        tenancy: ${{ secrets.OCI_TENANCY_OCID }}
+        region: "mx-monterrey-1"
+        api_key: ${{ secrets.OCI_API_KEY }}
+
+    - name: Ejecutar Reintentos Infinitos
+      env:
+        COMPARTMENT_ID: ${{ secrets.OCI_COMPARTMENT_OCID }}
+      run: |
+        chmod +x ./crear_instancia.sh
+        ./crear_instancia.sh
