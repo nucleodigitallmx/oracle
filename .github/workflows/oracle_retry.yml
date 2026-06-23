@@ -1,7 +1,7 @@
 name: Forzar Creacion Instancia Oracle
 
 on:
-  workflow_dispatch: # Permite activarlo manualmente desde la pestaña Actions
+  workflow_dispatch: 
 
 jobs:
   solicitar-vps:
