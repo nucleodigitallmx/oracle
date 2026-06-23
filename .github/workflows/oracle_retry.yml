@@ -10,7 +10,16 @@ jobs:
     - name: Código del repositorio
       uses: actions/checkout@v4
 
-    - name: Instalar y Configurar OCI CLI de forma Nativa
+   - name: Ejecutar Reintentos Infinitos
+      env:
+        COMPARTMENT_ID: ${{ secrets.OCI_COMPARTMENT_OCID }}
+      run: |
+        # 1. Forzar la ruta del binario en el PATH de este paso
+        export PATH=$PATH:/home/runner/bin
+        
+        # 2. Dar permisos y correr el script
+        chmod +x ./crear_instancia.sh
+        ./crear_instancia.sh
       env:
         OCI_USER: ${{ secrets.OCI_USER_OCID }}
         OCI_TENANCY: ${{ secrets.OCI_TENANCY_OCID }}
